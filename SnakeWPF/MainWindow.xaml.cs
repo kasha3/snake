@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Windows.Input;
 
 namespace SnakeWPF
 {
@@ -29,6 +30,8 @@ namespace SnakeWPF
         public MainWindow()
         {
             InitializeComponent();
+            mainWindow = this;
+            OpenPage(Home);
         }
         public void StartReceiver()
         {
@@ -106,6 +109,35 @@ namespace SnakeWPF
             {
                 sender.Close();
             }
+        }
+        public void EventKeyUp(object sender, KeyEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(ViewModelUserSettings.IPAddress) &&
+                !string.IsNullOrEmpty(ViewModelUserSettings.Port) &&
+                (ViewModelGames != null && !ViewModelGames.SnakesPlayers.GameOver))
+            {
+                if (e.Key == Key.Up) 
+                {
+                    Send($"Up|{JsonConvert.SerializeObject(ViewModelUserSettings)}");
+                }
+                else if (e.Key == Key.Down)
+                {
+                    Send($"Down|{JsonConvert.SerializeObject(ViewModelUserSettings)}");
+                }
+                else if (e.Key == Key.Left)
+                {
+                    Send($"Left|{JsonConvert.SerializeObject(ViewModelUserSettings)}");
+                }
+                else if (e.Key == Key.Right)
+                {
+                    Send($"Right|{JsonConvert.SerializeObject(ViewModelUserSettings)}");
+                }
+            }
+        }
+        public void QuitApplication(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            receivingUdpClient.Close();
+            tRec.Abort();
         }
     }
 }
