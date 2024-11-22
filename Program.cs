@@ -68,7 +68,7 @@ namespace Snake_Fadeev
 
             try
             {
-                Console.WriteLine("Команды сервера: ");
+                Console.WriteLine("Команды сервера:");
                 while (true)
                 {
                     byte[] receiveBytes = receivingUdpClient.Receive(
