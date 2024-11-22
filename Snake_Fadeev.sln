@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snake_Fadeev", "Snake_Fadeev.csproj", "{BA0FC9D5-B53E-4927-9128-A3124456B637}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\Common\Common.csproj", "{AF79606D-ADAF-49C8-B793-A7B6E7CDBC12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BA0FC9D5-B53E-4927-9128-A3124456B637}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA0FC9D5-B53E-4927-9128-A3124456B637}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA0FC9D5-B53E-4927-9128-A3124456B637}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF79606D-ADAF-49C8-B793-A7B6E7CDBC12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF79606D-ADAF-49C8-B793-A7B6E7CDBC12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF79606D-ADAF-49C8-B793-A7B6E7CDBC12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF79606D-ADAF-49C8-B793-A7B6E7CDBC12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
