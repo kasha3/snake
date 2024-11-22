@@ -127,7 +127,12 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Image\MenuBackground.png" />
+    <Resource Include="Image\GameBackground.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="Image\MenuBackground.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Image\MenuBackground_2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
