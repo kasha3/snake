@@ -10,6 +10,8 @@ using System.Windows.Media.Animation;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Windows.Input;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SnakeWPF
 {
@@ -40,20 +42,7 @@ namespace SnakeWPF
         }
         public void OpenPage(Page PageOpen)
         {
-            DoubleAnimation startAnimation = new DoubleAnimation();
-            startAnimation.From = 1;
-            startAnimation.To = 0;
-            startAnimation.Duration = TimeSpan.FromSeconds(0.6);
-            startAnimation.Completed += delegate
-            {
-                frame.Navigate(PageOpen);
-                DoubleAnimation endAnimation = new DoubleAnimation();
-                endAnimation.From = 0;
-                endAnimation.To = 1;
-                endAnimation.Duration = TimeSpan.FromSeconds(0.6);
-                frame.BeginAnimation(OpacityProperty, endAnimation);
-            };
-            frame.BeginAnimation(OpacityProperty, startAnimation);
+            frame.Navigate(PageOpen);
         }
         public void Receiver()
         {
@@ -63,8 +52,7 @@ namespace SnakeWPF
             {
                 while (true)
                 {
-                    byte[] receiveBytes = receivingUdpClient.Receive(
-                        ref RemoteIpEndPoint);
+                    byte[] receiveBytes = receivingUdpClient.Receive(ref RemoteIpEndPoint);
 
                     string returnData = Encoding.UTF8.GetString(receiveBytes);
                     if (ViewModelGames == null)
@@ -74,8 +62,13 @@ namespace SnakeWPF
                             OpenPage(Game);
                         });
                     }
-                    ViewModelGames = JsonConvert.DeserializeObject<ViewModelGames>(returnData.ToString());
-                    if (ViewModelGames.SnakesPlayers.GameOver)
+                    var data = JsonConvert.DeserializeObject<GameData>(returnData);
+                    ViewModelGames = new ViewModelGames
+                    {
+                        AllSnakes = data.AllSnakes,
+                        Points = data.ApplePoint
+                    };
+                    if (ViewModelGames.AllSnakes.Any(x => x.SnakesPlayers.GameOver))
                     {
                         Dispatcher.Invoke(() =>
                         {
@@ -110,7 +103,7 @@ namespace SnakeWPF
                 sender.Close();
             }
         }
-        public void EventKeyUp(object sender, KeyEventArgs e)
+        private void EventKeyUp(object sender, KeyEventArgs e)
         {
             if (!string.IsNullOrEmpty(ViewModelUserSettings.IPAddress) &&
                 !string.IsNullOrEmpty(ViewModelUserSettings.Port) &&
