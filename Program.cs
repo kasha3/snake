@@ -16,6 +16,7 @@ namespace Snake_Fadeev
         public static List<Leaders> Leaders = new List<Leaders>();
         public static List<ViewModelUserSettings> remoteIPAddress = new List<ViewModelUserSettings>();
         public static List<ViewModelGames> viewModelGames = new List<ViewModelGames>();
+        public static Snakes.Point ApplePoint = new Snakes.Point(new Random().Next(10, 783), new Random().Next(10, 410));
         private static int localPort = 5001;
         public static int MaxSpeed = 15;
         static void Main(string[] args)
@@ -44,8 +45,12 @@ namespace Snake_Fadeev
                     int.Parse(User.Port));
                 try
                 {
-                    byte[] bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(viewModelGames.Find(x => x.IdSnake == User.IdSnake)));
-
+                    var dataSend = new
+                    {
+                        AllSnakes = viewModelGames,
+                        ApplePoint = ApplePoint
+                    };
+                    byte[] bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(dataSend));
                     sender.Send(bytes, bytes.Length, endPoint);
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"Отправил данные пользователю: {User.IPAddress}:{User.Port}");
