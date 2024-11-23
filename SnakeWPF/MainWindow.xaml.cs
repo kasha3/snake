@@ -129,7 +129,8 @@ namespace SnakeWPF
         }
         public void QuitApplication(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            receivingUdpClient.Close();
+            if (receivingUdpClient != null) receivingUdpClient.Close();
+            else return;
             tRec.Abort();
         }
     }

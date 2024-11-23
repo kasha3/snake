@@ -39,6 +39,7 @@ namespace Snake_Fadeev
                     sender.Send(bytes, bytes.Length, endPoint);
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"Отправил данные пользователю: {User.IPAddress}:{User.Port}");
+                    //Console.WriteLine($"Очки пользователя: {remoteIPAddress.Find(x => x.IdSnake == User.IdSnake).IPAddress}:{remoteIPAddress.Find(x => x.IdSnake == User.IdSnake).Port} == {dataToSend.AllSnakes.Find(x => x.IdSnake == User.IdSnake).SnakesPlayers.Points.Count - 3}");
                 }
                 catch (Exception ex)
                 {
@@ -54,7 +55,8 @@ namespace Snake_Fadeev
 
         public static void Receiver()
         {
-            UdpClient receivingUdpClient = new UdpClient(localPort);
+            IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, localPort);
+            UdpClient receivingUdpClient = new UdpClient(localEndPoint);
             IPEndPoint RemoteIpEndPoint = null;
             try
             {
@@ -81,13 +83,14 @@ namespace Snake_Fadeev
                         var viewModelUserSettings = JsonConvert.DeserializeObject<ViewModelUserSettings>(dataMessage[1]);
                         int IdPlayer = -1;
                         IdPlayer = remoteIPAddress.FindIndex(x => x.IPAddress == viewModelUserSettings.IPAddress && x.Port == viewModelUserSettings.Port);
-                        if (IdPlayer != -1)
+                        if (IdPlayer == -1)
                         {
-                            if (dataMessage[0] == "Up" && viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Down) viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Up;
-                            else if (dataMessage[0] == "Down" && viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Up) viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Down;
-                            else if (dataMessage[0] == "Left" && viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Right) viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Left;
-                            else if (dataMessage[0] == "Right" && viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Left) viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Right;
+                            continue;
                         }
+                        if (dataMessage[0] == "Up" && viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Down) viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Up;
+                        else if (dataMessage[0] == "Down" && viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Up) viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Down;
+                        else if (dataMessage[0] == "Left" && viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Right) viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Left;
+                        else if (dataMessage[0] == "Right" && viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Left) viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Right;
                     }
                 }
             }

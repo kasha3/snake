@@ -24,8 +24,9 @@ namespace SnakeWPF.Pages
         {
             InitializeComponent();
             name.Content = MainWindow.mainWindow.ViewModelUserSettings.UserName;
-            top.Content = MainWindow.mainWindow.ViewModelGames.Top;
-            score.Content = $"{MainWindow.mainWindow.ViewModelGames.SnakesPlayers.Points.Count - 3} score";
+            top.Content = MainWindow.mainWindow.ViewModelGames.AllSnakes.Find(x => x.IdSnake == MainWindow.mainWindow.ViewModelGames.IdSnake).Top;
+            //Console.WriteLine($"Очки пользователя: {remoteIPAddress.Find(x => x.IdSnake == User.IdSnake).IPAddress}:{remoteIPAddress.Find(x => x.IdSnake == User.IdSnake).Port} == {dataToSend.AllSnakes.Find(x => x.IdSnake == User.IdSnake).SnakesPlayers.Points.Count - 3}");
+            score.Content = $"{MainWindow.mainWindow.ViewModelGames.AllSnakes.Find(x => x.IdSnake == MainWindow.mainWindow.ViewModelGames.IdSnake).SnakesPlayers.Points.Count - 3} score";
             MainWindow.mainWindow.receivingUdpClient.Close();
             MainWindow.mainWindow.tRec.Abort();
             MainWindow.mainWindow.ViewModelGames = null;
