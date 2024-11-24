@@ -39,7 +39,7 @@ namespace SnakeWPF.Pages
             IPAddress UserIpAddress;
             if (!IPAddress.TryParse(ip.Text, out UserIpAddress))
             {
-                MessageBox.Show("Please use the IP address in the format X.X.X.X.");
+                MessageBox.Show("Please use the IP address in the format X.X.X.X ");
                 return;
             }
             int UserPort;
